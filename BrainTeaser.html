@@ -146,26 +146,44 @@
     <!-- Success Message -->
     <div id="success-message" class="hidden fixed bottom-5 right-5 bg-green-500 text-white py-3 px-5 rounded-lg shadow-lg">Successfully Registered!</div>
 
+    <!-- Firebase Config Error Modal -->
+    <div id="config-error-modal" class="modal hidden fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 z-50">
+        <div class="bg-red-900 border border-red-500 rounded-lg p-8 w-full max-w-lg text-white">
+            <h3 class="text-2xl font-bold mb-4 text-center">Action Required: Firebase Setup</h3>
+            <p class="mb-4 text-center">The website can't connect to the database because a required setting is missing in your Firebase project.</p>
+            <p class="font-bold mb-2">Please follow these steps to fix it:</p>
+            <ol class="list-decimal list-inside space-y-2 bg-gray-800 p-4 rounded-md">
+                <li>Go to the <a href="https://console.firebase.google.com/" target="_blank" rel="noopener noreferrer" class="text-yellow-400 underline">Firebase Console</a> and select your project (`brainteaser-97d8e`).</li>
+                <li>In the left menu, go to <strong>Build > Authentication</strong>.</li>
+                <li>Click the <strong>Sign-in method</strong> tab.</li>
+                <li>Find <strong>Anonymous</strong> in the list and click the pencil icon to edit.</li>
+                <li><strong>Enable</strong> the switch and click <strong>Save</strong>.</li>
+                <li>Once saved, reload this page.</li>
+            </ol>
+        </div>
+    </div>
+
 
     <!-- Firebase and App Logic -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getFirestore, collection, addDoc, onSnapshot, query, doc, setDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-        import { getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
 
         // For Firebase JS SDK v7.20.0 and later, measurementId is optional
         const firebaseConfig = {
              apiKey: "AIzaSyBAA8DOJzhh2yVv8a1BJafHEj4ZHGXscQk",
              authDomain: "brainteaser-97d8e.firebaseapp.com",
              projectId: "brainteaser-97d8e",
-             storageBucket: "brainteaser-97d8e.firebasestorage.app",
+             storageBucket: "brainteaser-97d8e.appspot.com",
              messagingSenderId: "697283750479",
              appId: "1:697283750479:web:f32f59af47e302ba95d83a",
              measurementId: "G-6LY8R8JHVP"
-              };
-        const appId = 'brainteaser-club';
+        };
+
+        const appId = 'brainteaser-club-site'; // Use a consistent name for your live site
         const pastEventsPath = `artifacts/${appId}/public/data/pastEvents`;
-        const upcomingEventsPath = `artifacts${appId}/public/data/upcomingEvents`;
+        const upcomingEventsPath = `artifacts/${appId}/public/data/upcomingEvents`;
 
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
@@ -173,6 +191,18 @@
 
         let currentUser = null;
         let isAdmin = false;
+
+        // --- UI ELEMENTS ---
+        const pastEventsGallery = document.getElementById('past-events-gallery');
+        const upcomingEventsGallery = document.getElementById('upcoming-events-gallery');
+        const modals = document.querySelectorAll('.modal');
+
+        // --- MODAL HANDLING ---
+        const openModal = (id) => document.getElementById(id).classList.remove('hidden');
+        const closeModal = () => modals.forEach(m => m.classList.add('hidden'));
+        document.getElementById('add-past-event-btn').addEventListener('click', () => openModal('add-past-event-modal'));
+        document.getElementById('add-upcoming-event-btn').addEventListener('click', () => openModal('add-upcoming-event-modal'));
+        document.querySelectorAll('.modal-close-btn').forEach(btn => btn.addEventListener('click', closeModal));
 
         // --- AUTHENTICATION & ADMIN CHECK ---
         const urlParams = new URLSearchParams(window.location.search);
@@ -187,32 +217,24 @@
                 console.log("Authenticated with UID:", currentUser.uid);
                 fetchPastEvents();
                 fetchUpcomingEvents();
+            } else {
+                 console.log("User not authenticated yet.");
             }
         });
 
+        // Simplified authentication for GitHub Pages
         (async () => {
             try {
-                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                    await signInWithCustomToken(auth, __initial_auth_token);
-                } else {
-                    await signInAnonymously(auth);
-                }
+                await signInAnonymously(auth);
+                console.log("Signed in anonymously.");
             } catch (error) {
-                console.error("Authentication failed:", error);
+                console.error("Anonymous authentication failed:", error);
+                // **FIX: Check for the specific configuration error and show a helpful modal.**
+                if (error.code === 'auth/configuration-not-found') {
+                    openModal('config-error-modal');
+                }
             }
         })();
-
-        // --- UI ELEMENTS ---
-        const pastEventsGallery = document.getElementById('past-events-gallery');
-        const upcomingEventsGallery = document.getElementById('upcoming-events-gallery');
-        const modals = document.querySelectorAll('.modal');
-
-        // --- MODAL HANDLING ---
-        const openModal = (id) => document.getElementById(id).classList.remove('hidden');
-        const closeModal = () => modals.forEach(m => m.classList.add('hidden'));
-        document.getElementById('add-past-event-btn').addEventListener('click', () => openModal('add-past-event-modal'));
-        document.getElementById('add-upcoming-event-btn').addEventListener('click', () => openModal('add-upcoming-event-modal'));
-        document.querySelectorAll('.modal-close-btn').forEach(btn => btn.addEventListener('click', closeModal));
 
         // --- PAST EVENTS LOGIC ---
         document.getElementById('add-past-event-form').addEventListener('submit', async (e) => {
