@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BrainTeaser Quiz Club</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+        .hero-bg {
+            background: linear-gradient(135deg, #1e3a8a, #4c1d95, #111827);
+        }
+        .event-card, .upcoming-card {
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+        .event-card:hover, .upcoming-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        .text-glow {
+            text-shadow: 0 0 8px rgba(250, 204, 21, 0.4);
+        }
+        .modal {
+            transition: opacity 0.3s ease-in-out;
+        }
+        .admin-only {
+            display: none; /* Hidden by default */
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-white">
+
+    <!-- Header -->
+    <header class="bg-gray-900/80 backdrop-blur-sm fixed w-full z-10 top-0">
+        <div class="container mx-auto flex justify-between items-center p-4">
+            <h1 class="text-2xl font-bold text-yellow-400 text-glow">BrainTeaser</h1>
+            <nav>
+                <a href="#about" class="text-base text-gray-300 hover:text-yellow-400 mx-3">About</a>
+                <a href="#events" class="text-base text-gray-300 hover:text-yellow-400 mx-3">Past Events</a>
+                <a href="#register" class="text-base text-gray-300 hover:text-yellow-400 mx-3">Upcoming</a>
+                <a href="#contact" class="text-base text-gray-300 hover:text-yellow-400 mx-3">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-bg h-screen flex items-center justify-center text-center px-4">
+        <div class="bg-black/40 p-8 rounded-xl">
+            <h2 class="text-4xl md:text-6xl font-bold text-white leading-tight">Welcome to <span class="text-yellow-400 text-glow">BrainTeaser</span></h2>
+            <p class="text-lg md:text-xl text-gray-200 mt-4">Where Sharp Minds Collide</p>
+            <a href="#register" class="mt-8 inline-block bg-yellow-400 text-gray-900 font-bold py-3 px-6 rounded-full text-base hover:bg-yellow-500 transition duration-300">See Upcoming Events</a>
+        </div>
+    </section>
+
+    <!-- About Us Section -->
+    <section id="about" class="py-16 bg-gray-800">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-3xl font-bold mb-6 text-yellow-400 text-glow">About Our Club</h2>
+            <p class="max-w-2xl mx-auto text-base text-gray-300">
+                BrainTeaser is a community for inquisitive minds. We host diverse quiz events in a fun, competitive, and intellectually stimulating environment.
+            </p>
+        </div>
+    </section>
+
+    <!-- Past Events Section -->
+    <section id="events" class="py-16">
+        <div class="container mx-auto px-6">
+            <div class="flex justify-between items-center mb-12">
+                 <h2 class="text-3xl font-bold text-yellow-400 text-glow text-left">Past Events</h2>
+                 <button id="add-past-event-btn" class="admin-only bg-green-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-green-600 transition duration-300">Add Past Event</button>
+            </div>
+            <div id="past-events-gallery" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <p class="text-gray-400 col-span-full text-center">Loading events...</p>
+            </div>
+        </div>
+    </section>
+
+     <!-- Upcoming Events Section -->
+    <section id="register" class="py-16 bg-gray-800">
+        <div class="container mx-auto px-6">
+             <div class="flex justify-between items-center mb-12">
+                 <h2 class="text-3xl font-bold text-yellow-400 text-glow text-left">Upcoming Events</h2>
+                 <button id="add-upcoming-event-btn" class="admin-only bg-blue-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-600 transition duration-300">Add Upcoming Event</button>
+            </div>
+            <div id="upcoming-events-gallery" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                 <p class="text-gray-400 col-span-full text-center">Loading events...</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <footer id="contact" class="bg-gray-900 py-10">
+        <div class="container mx-auto text-center text-gray-400">
+            <p class="text-xl font-bold text-yellow-400 mb-4 text-glow">Get In Touch</p>
+            <p class="text-sm">Follow us on social media to stay updated on our latest events and news.</p>
+            <div class="flex justify-center space-x-6 mt-4">
+                <a href="#" class="hover:text-yellow-400">Facebook</a>
+                <a href="#" class="hover:text-yellow-400">Twitter</a>
+                <a href="#" class="hover:text-yellow-400">Instagram</a>
+            </div>
+            <p class="mt-8 text-xs">&copy; 2024 BrainTeaser Quiz Club. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <!-- MODALS (Hidden by default) -->
+    <!-- Add Past Event Modal -->
+    <div id="add-past-event-modal" class="modal hidden fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 z-50">
+        <div class="bg-gray-800 rounded-lg p-8 w-full max-w-md">
+            <h3 class="text-2xl font-bold mb-6 text-center text-white">Add New Past Event</h3>
+            <form id="add-past-event-form">
+                <div class="mb-4"><label for="past-event-title" class="block text-gray-300 mb-2">Event Title</label><input type="text" id="past-event-title" class="w-full p-2 rounded bg-gray-700 text-white border border-gray-600 focus:outline-none focus:border-yellow-400" required></div>
+                <div class="mb-4"><label for="past-event-desc" class="block text-gray-300 mb-2">Description</label><textarea id="past-event-desc" rows="3" class="w-full p-2 rounded bg-gray-700 text-white border border-gray-600 focus:outline-none focus:border-yellow-400" required></textarea></div>
+                <div class="mb-6"><label for="past-event-image" class="block text-gray-300 mb-2">Image URL</label><input type="url" id="past-event-image" placeholder="https://placehold.co/600x400/..." class="w-full p-2 rounded bg-gray-700 text-white border border-gray-600 focus:outline-none focus:border-yellow-400" required></div>
+                <div class="flex justify-between"><button type="submit" class="bg-yellow-400 text-gray-900 font-bold py-2 px-6 rounded-lg hover:bg-yellow-500 transition">Save</button><button type="button" class="modal-close-btn bg-gray-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-gray-500 transition">Cancel</button></div>
+            </form>
+        </div>
+    </div>
+    <!-- Add Upcoming Event Modal -->
+    <div id="add-upcoming-event-modal" class="modal hidden fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 z-50">
+        <div class="bg-gray-800 rounded-lg p-8 w-full max-w-md">
+            <h3 class="text-2xl font-bold mb-6 text-center text-white">Add New Upcoming Event</h3>
+            <form id="add-upcoming-event-form">
+                <div class="mb-4"><label for="upcoming-event-title" class="block text-gray-300 mb-2">Event Title</label><input type="text" id="upcoming-event-title" class="w-full p-2 rounded bg-gray-700 text-white border border-gray-600 focus:outline-none focus:border-yellow-400" required></div>
+                <div class="mb-4"><label for="upcoming-event-desc" class="block text-gray-300 mb-2">Description</label><textarea id="upcoming-event-desc" rows="3" class="w-full p-2 rounded bg-gray-700 text-white border border-gray-600 focus:outline-none focus:border-yellow-400" required></textarea></div>
+                <div class="mb-4"><label for="upcoming-event-date" class="block text-gray-300 mb-2">Date & Time</label><input type="datetime-local" id="upcoming-event-date" class="w-full p-2 rounded bg-gray-700 text-white border border-gray-600 focus:outline-none focus:border-yellow-400" required></div>
+                <div class="mb-6"><label for="upcoming-event-image" class="block text-gray-300 mb-2">Image URL</label><input type="url" id="upcoming-event-image" placeholder="https://placehold.co/600x400/..." class="w-full p-2 rounded bg-gray-700 text-white border border-gray-600 focus:outline-none focus:border-yellow-400" required></div>
+                <div class="flex justify-between"><button type="submit" class="bg-yellow-400 text-gray-900 font-bold py-2 px-6 rounded-lg hover:bg-yellow-500 transition">Save</button><button type="button" class="modal-close-btn bg-gray-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-gray-500 transition">Cancel</button></div>
+            </form>
+        </div>
+    </div>
+    <!-- User Registration Modal -->
+    <div id="user-register-modal" class="modal hidden fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 z-50">
+        <div class="bg-gray-800 rounded-lg p-8 w-full max-w-md">
+            <h3 id="register-modal-title" class="text-2xl font-bold mb-6 text-center text-white">Register for Event</h3>
+            <form id="user-register-form">
+                <input type="hidden" id="register-event-id">
+                <div class="mb-4"><label for="register-name" class="block text-gray-300 mb-2">Full Name</label><input type="text" id="register-name" class="w-full p-2 rounded bg-gray-700 text-white border border-gray-600 focus:outline-none focus:border-yellow-400" required></div>
+                <div class="mb-6"><label for="register-email" class="block text-gray-300 mb-2">Email</label><input type="email" id="register-email" class="w-full p-2 rounded bg-gray-700 text-white border border-gray-600 focus:outline-none focus:border-yellow-400" required></div>
+                <div class="flex justify-between"><button type="submit" class="bg-yellow-400 text-gray-900 font-bold py-2 px-6 rounded-lg hover:bg-yellow-500 transition">Submit</button><button type="button" class="modal-close-btn bg-gray-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-gray-500 transition">Cancel</button></div>
+            </form>
+        </div>
+    </div>
+    <!-- Success Message -->
+    <div id="success-message" class="hidden fixed bottom-5 right-5 bg-green-500 text-white py-3 px-5 rounded-lg shadow-lg">Successfully Registered!</div>
+
+
+    <!-- Firebase and App Logic -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getFirestore, collection, addDoc, onSnapshot, query, doc, setDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        const firebaseConfig = {
+             apiKey: "AIzaSyBAA8DOJzhh2yVv8a1BJafHEj4ZHGXscQk",
+             authDomain: "brainteaser-97d8e.firebaseapp.com",
+             projectId: "brainteaser-97d8e",
+             storageBucket: "brainteaser-97d8e.firebasestorage.app",
+             messagingSenderId: "697283750479",
+             appId: "1:697283750479:web:f32f59af47e302ba95d83a",
+             measurementId: "G-6LY8R8JHVP"
+              };
+        const appId = 'brainteaser-club';
+        const pastEventsPath = `artifacts/${appId}/public/data/pastEvents`;
+        const upcomingEventsPath = `artifacts${appId}/public/data/upcomingEvents`;
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+
+        let currentUser = null;
+        let isAdmin = false;
+
+        // --- AUTHENTICATION & ADMIN CHECK ---
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('admin') === 'true') {
+            isAdmin = true;
+            document.querySelectorAll('.admin-only').forEach(el => el.style.display = 'block');
+        }
+
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                currentUser = user;
+                console.log("Authenticated with UID:", currentUser.uid);
+                fetchPastEvents();
+                fetchUpcomingEvents();
+            }
+        });
+
+        (async () => {
+            try {
+                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                    await signInWithCustomToken(auth, __initial_auth_token);
+                } else {
+                    await signInAnonymously(auth);
+                }
+            } catch (error) {
+                console.error("Authentication failed:", error);
+            }
+        })();
+
+        // --- UI ELEMENTS ---
+        const pastEventsGallery = document.getElementById('past-events-gallery');
+        const upcomingEventsGallery = document.getElementById('upcoming-events-gallery');
+        const modals = document.querySelectorAll('.modal');
+
+        // --- MODAL HANDLING ---
+        const openModal = (id) => document.getElementById(id).classList.remove('hidden');
+        const closeModal = () => modals.forEach(m => m.classList.add('hidden'));
+        document.getElementById('add-past-event-btn').addEventListener('click', () => openModal('add-past-event-modal'));
+        document.getElementById('add-upcoming-event-btn').addEventListener('click', () => openModal('add-upcoming-event-modal'));
+        document.querySelectorAll('.modal-close-btn').forEach(btn => btn.addEventListener('click', closeModal));
+
+        // --- PAST EVENTS LOGIC ---
+        document.getElementById('add-past-event-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const title = document.getElementById('past-event-title').value;
+            const description = document.getElementById('past-event-desc').value;
+            const imageUrl = document.getElementById('past-event-image').value;
+            try {
+                await addDoc(collection(db, pastEventsPath), { title, description, imageUrl, createdAt: new Date() });
+                e.target.reset();
+                closeModal();
+            } catch (error) { console.error("Error adding past event:", error); alert("Could not save event."); }
+        });
+
+        function fetchPastEvents() {
+            onSnapshot(query(collection(db, pastEventsPath)), (snapshot) => {
+                pastEventsGallery.innerHTML = '';
+                if (snapshot.empty) {
+                    pastEventsGallery.innerHTML = '<p class="text-gray-400 col-span-full text-center">No past events found. Add one in admin mode!</p>';
+                    return;
+                }
+                snapshot.forEach((doc) => {
+                    const event = doc.data();
+                    pastEventsGallery.innerHTML += `
+                        <div class="event-card bg-gray-800 rounded-lg overflow-hidden">
+                            <img src="${event.imageUrl}" alt="${event.title}" class="w-full h-48 object-cover" onerror="this.onerror=null;this.src='https://placehold.co/600x400/1a202c/FFFFFF?text=Image+Not+Found';">
+                            <div class="p-5">
+                                <h3 class="text-xl font-bold mb-2 text-yellow-400">${event.title}</h3>
+                                <p class="text-gray-400 text-sm">${event.description}</p>
+                            </div>
+                        </div>`;
+                });
+            });
+        }
+
+        // --- UPCOMING EVENTS LOGIC ---
+        document.getElementById('add-upcoming-event-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const title = document.getElementById('upcoming-event-title').value;
+            const description = document.getElementById('upcoming-event-desc').value;
+            const eventDate = document.getElementById('upcoming-event-date').value;
+            const imageUrl = document.getElementById('upcoming-event-image').value;
+            try {
+                await addDoc(collection(db, upcomingEventsPath), { title, description, eventDate, imageUrl, createdAt: new Date() });
+                e.target.reset();
+                closeModal();
+            } catch (error) { console.error("Error adding upcoming event:", error); alert("Could not save event."); }
+        });
+
+        function fetchUpcomingEvents() {
+            onSnapshot(query(collection(db, upcomingEventsPath)), (snapshot) => {
+                upcomingEventsGallery.innerHTML = '';
+                if (snapshot.empty) {
+                    upcomingEventsGallery.innerHTML = '<p class="text-gray-400 col-span-full text-center">No upcoming events scheduled. Check back soon!</p>';
+                    return;
+                }
+                snapshot.forEach((doc) => {
+                    const event = doc.data();
+                    const eventDate = new Date(event.eventDate).toLocaleString('en-US', { dateStyle: 'medium', timeStyle: 'short' });
+                    upcomingEventsGallery.innerHTML += `
+                        <div class="upcoming-card bg-gray-700 rounded-lg overflow-hidden flex flex-col">
+                            <img src="${event.imageUrl}" alt="${event.title}" class="w-full h-48 object-cover" onerror="this.onerror=null;this.src='https://placehold.co/600x400/1a202c/FFFFFF?text=Event';">
+                            <div class="p-5 flex flex-col flex-grow">
+                                <h3 class="text-xl font-bold mb-2 text-yellow-400">${event.title}</h3>
+                                <p class="text-gray-300 text-sm mb-2"><span class="font-semibold">Date:</span> ${eventDate}</p>
+                                <p class="text-gray-400 text-sm flex-grow">${event.description}</p>
+                                <button class="register-btn mt-4 w-full bg-yellow-400 text-gray-900 font-bold py-2 px-4 rounded-lg hover:bg-yellow-500 transition" data-id="${doc.id}" data-title="${event.title}">Register Now</button>
+                            </div>
+                        </div>`;
+                });
+            });
+        }
+        
+        // --- USER REGISTRATION LOGIC ---
+        upcomingEventsGallery.addEventListener('click', (e) => {
+            if (e.target.classList.contains('register-btn')) {
+                const eventId = e.target.dataset.id;
+                const eventTitle = e.target.dataset.title;
+                document.getElementById('register-event-id').value = eventId;
+                document.getElementById('register-modal-title').innerText = `Register for ${eventTitle}`;
+                openModal('user-register-modal');
+            }
+        });
+
+        document.getElementById('user-register-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const eventId = document.getElementById('register-event-id').value;
+            const name = document.getElementById('register-name').value;
+            const email = document.getElementById('register-email').value;
+            const registrationPath = `${upcomingEventsPath}/${eventId}/registrations`;
+            
+            try {
+                // We use the user's UID as the document ID to prevent duplicate registrations
+                await setDoc(doc(db, registrationPath, currentUser.uid), { name, email, registeredAt: new Date() });
+                e.target.reset();
+                closeModal();
+                const successMsg = document.getElementById('success-message');
+                successMsg.classList.remove('hidden');
+                setTimeout(() => successMsg.classList.add('hidden'), 3000);
+            } catch (error) {
+                console.error("Error registering:", error);
+                alert("Registration failed. You may have already registered.");
+            }
+        });
+
+    </script>
+</body>
+</html>
