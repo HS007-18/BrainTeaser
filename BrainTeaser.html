@@ -10,18 +10,28 @@
         body {
             font-family: 'Poppins', sans-serif;
         }
+        /* New, modern gradient background */
         .hero-bg {
-            background: linear-gradient(135deg, #1e3a8a, #4c1d95, #111827);
+            background: linear-gradient(135deg, #0f172a, #0369a1, #0e7490);
         }
-        .event-card, .upcoming-card {
-            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        /* Subtle floating animation for the hero content */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
         }
-        .event-card:hover, .upcoming-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
         }
-        .text-glow {
-            text-shadow: 0 0 8px rgba(250, 204, 21, 0.4);
+        /* Styles for on-scroll animations */
+        .scroll-animate {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .scroll-animate.is-visible {
+            opacity: 1;
+            transform: translateY(0);
         }
         .modal {
             transition: opacity 0.3s ease-in-out;
@@ -31,34 +41,33 @@
         }
     </style>
 </head>
-<body class="bg-gray-900 text-white">
+<body class="bg-slate-900 text-white">
 
     <!-- Header -->
-    <header class="bg-gray-900/80 backdrop-blur-sm fixed w-full z-10 top-0">
+    <header class="bg-slate-900/80 backdrop-blur-sm fixed w-full z-10 top-0">
         <div class="container mx-auto flex justify-between items-center p-4">
-            <h1 class="text-2xl font-bold text-yellow-400 text-glow">BrainTeaser</h1>
+            <h1 class="text-2xl font-bold text-cyan-400">BrainTeaser</h1>
             <nav>
-                <a href="#about" class="text-base text-gray-300 hover:text-yellow-400 mx-3">About</a>
-                <a href="#events" class="text-base text-gray-300 hover:text-yellow-400 mx-3">Past Events</a>
-                <a href="#register" class="text-base text-gray-300 hover:text-yellow-400 mx-3">Upcoming</a>
-                <a href="#contact" class="text-base text-gray-300 hover:text-yellow-400 mx-3">Contact</a>
+                <a href="#about" class="text-base text-gray-300 hover:text-cyan-400 mx-3">About</a>
+                <a href="#events" class="text-base text-gray-300 hover:text-cyan-400 mx-3">Past Events</a>
+                <a href="#register" class="text-base text-gray-300 hover:text-cyan-400 mx-3">Upcoming</a>
             </nav>
         </div>
     </header>
 
     <!-- Hero Section -->
     <section class="hero-bg h-screen flex items-center justify-center text-center px-4">
-        <div class="bg-black/40 p-8 rounded-xl">
-            <h2 class="text-4xl md:text-6xl font-bold text-white leading-tight">Welcome to <span class="text-yellow-400 text-glow">BrainTeaser</span></h2>
+        <div class="bg-black/40 p-8 rounded-xl animate-float">
+            <h2 class="text-4xl md:text-6xl font-bold text-white leading-tight">Welcome to <span class="text-cyan-400">BrainTeaser</span></h2>
             <p class="text-lg md:text-xl text-gray-200 mt-4">Where Sharp Minds Collide</p>
-            <a href="#register" class="mt-8 inline-block bg-yellow-400 text-gray-900 font-bold py-3 px-6 rounded-full text-base hover:bg-yellow-500 transition duration-300">See Upcoming Events</a>
+            <a href="#register" class="mt-8 inline-block bg-cyan-500 text-white font-bold py-3 px-6 rounded-full text-base hover:bg-cyan-600 transition duration-300">See Upcoming Events</a>
         </div>
     </section>
 
     <!-- About Us Section -->
-    <section id="about" class="py-16 bg-gray-800">
-        <div class="container mx-auto px-6 text-center">
-            <h2 class="text-3xl font-bold mb-6 text-yellow-400 text-glow">About Our Club</h2>
+    <section id="about" class="py-20 bg-slate-800">
+        <div class="container mx-auto px-6 text-center scroll-animate">
+            <h2 class="text-3xl font-bold mb-6 text-cyan-400">About Our Club</h2>
             <p class="max-w-2xl mx-auto text-base text-gray-300">
                 BrainTeaser is a community for inquisitive minds. We host diverse quiz events in a fun, competitive, and intellectually stimulating environment.
             </p>
@@ -66,10 +75,10 @@
     </section>
 
     <!-- Past Events Section -->
-    <section id="events" class="py-16">
+    <section id="events" class="py-20">
         <div class="container mx-auto px-6">
-            <div class="flex justify-between items-center mb-12">
-                 <h2 class="text-3xl font-bold text-yellow-400 text-glow text-left">Past Events</h2>
+            <div class="flex justify-between items-center mb-12 scroll-animate">
+                 <h2 class="text-3xl font-bold text-cyan-400 text-left">Past Events</h2>
                  <button id="add-past-event-btn" class="admin-only bg-green-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-green-600 transition duration-300">Add Past Event</button>
             </div>
             <div id="past-events-gallery" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -79,10 +88,10 @@
     </section>
 
      <!-- Upcoming Events Section -->
-    <section id="register" class="py-16 bg-gray-800">
+    <section id="register" class="py-20 bg-slate-800">
         <div class="container mx-auto px-6">
-             <div class="flex justify-between items-center mb-12">
-                 <h2 class="text-3xl font-bold text-yellow-400 text-glow text-left">Upcoming Events</h2>
+             <div class="flex justify-between items-center mb-12 scroll-animate">
+                 <h2 class="text-3xl font-bold text-cyan-400 text-left">Upcoming Events</h2>
                  <button id="add-upcoming-event-btn" class="admin-only bg-blue-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-600 transition duration-300">Add Upcoming Event</button>
             </div>
             <div id="upcoming-events-gallery" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -91,55 +100,41 @@
         </div>
     </section>
 
-    <!-- Contact Section -->
-    <footer id="contact" class="bg-gray-900 py-10">
-        <div class="container mx-auto text-center text-gray-400">
-            <p class="text-xl font-bold text-yellow-400 mb-4 text-glow">Get In Touch</p>
-            <p class="text-sm">Follow us on social media to stay updated on our latest events and news.</p>
-            <div class="flex justify-center space-x-6 mt-4">
-                <a href="#" class="hover:text-yellow-400">Facebook</a>
-                <a href="#" class="hover:text-yellow-400">Twitter</a>
-                <a href="#" class="hover:text-yellow-400">Instagram</a>
-            </div>
-            <p class="mt-8 text-xs">&copy; 2024 BrainTeaser Quiz Club. All Rights Reserved.</p>
-        </div>
-    </footer>
-
     <!-- MODALS (Hidden by default) -->
     <!-- Add Past Event Modal -->
     <div id="add-past-event-modal" class="modal hidden fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 z-50">
-        <div class="bg-gray-800 rounded-lg p-8 w-full max-w-md">
+        <div class="bg-slate-800 rounded-lg p-8 w-full max-w-md">
             <h3 class="text-2xl font-bold mb-6 text-center text-white">Add New Past Event</h3>
             <form id="add-past-event-form">
-                <div class="mb-4"><label for="past-event-title" class="block text-gray-300 mb-2">Event Title</label><input type="text" id="past-event-title" class="w-full p-2 rounded bg-gray-700 text-white border border-gray-600 focus:outline-none focus:border-yellow-400" required></div>
-                <div class="mb-4"><label for="past-event-desc" class="block text-gray-300 mb-2">Description</label><textarea id="past-event-desc" rows="3" class="w-full p-2 rounded bg-gray-700 text-white border border-gray-600 focus:outline-none focus:border-yellow-400" required></textarea></div>
-                <div class="mb-6"><label for="past-event-image" class="block text-gray-300 mb-2">Image URL</label><input type="url" id="past-event-image" placeholder="https://placehold.co/600x400/..." class="w-full p-2 rounded bg-gray-700 text-white border border-gray-600 focus:outline-none focus:border-yellow-400" required></div>
-                <div class="flex justify-between"><button type="submit" class="bg-yellow-400 text-gray-900 font-bold py-2 px-6 rounded-lg hover:bg-yellow-500 transition">Save</button><button type="button" class="modal-close-btn bg-gray-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-gray-500 transition">Cancel</button></div>
+                <div class="mb-4"><label for="past-event-title" class="block text-gray-300 mb-2">Event Title</label><input type="text" id="past-event-title" class="w-full p-2 rounded bg-slate-700 text-white border border-slate-600 focus:outline-none focus:border-cyan-400" required></div>
+                <div class="mb-4"><label for="past-event-desc" class="block text-gray-300 mb-2">Description</label><textarea id="past-event-desc" rows="3" class="w-full p-2 rounded bg-slate-700 text-white border border-slate-600 focus:outline-none focus:border-cyan-400" required></textarea></div>
+                <div class="mb-6"><label for="past-event-image" class="block text-gray-300 mb-2">Image URL</label><input type="url" id="past-event-image" placeholder="https://placehold.co/600x400/..." class="w-full p-2 rounded bg-slate-700 text-white border border-slate-600 focus:outline-none focus:border-cyan-400" required></div>
+                <div class="flex justify-between"><button type="submit" class="bg-cyan-500 text-white font-bold py-2 px-6 rounded-lg hover:bg-cyan-600 transition">Save</button><button type="button" class="modal-close-btn bg-slate-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-slate-500 transition">Cancel</button></div>
             </form>
         </div>
     </div>
     <!-- Add Upcoming Event Modal -->
     <div id="add-upcoming-event-modal" class="modal hidden fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 z-50">
-        <div class="bg-gray-800 rounded-lg p-8 w-full max-w-md">
+        <div class="bg-slate-800 rounded-lg p-8 w-full max-w-md">
             <h3 class="text-2xl font-bold mb-6 text-center text-white">Add New Upcoming Event</h3>
             <form id="add-upcoming-event-form">
-                <div class="mb-4"><label for="upcoming-event-title" class="block text-gray-300 mb-2">Event Title</label><input type="text" id="upcoming-event-title" class="w-full p-2 rounded bg-gray-700 text-white border border-gray-600 focus:outline-none focus:border-yellow-400" required></div>
-                <div class="mb-4"><label for="upcoming-event-desc" class="block text-gray-300 mb-2">Description</label><textarea id="upcoming-event-desc" rows="3" class="w-full p-2 rounded bg-gray-700 text-white border border-gray-600 focus:outline-none focus:border-yellow-400" required></textarea></div>
-                <div class="mb-4"><label for="upcoming-event-date" class="block text-gray-300 mb-2">Date & Time</label><input type="datetime-local" id="upcoming-event-date" class="w-full p-2 rounded bg-gray-700 text-white border border-gray-600 focus:outline-none focus:border-yellow-400" required></div>
-                <div class="mb-6"><label for="upcoming-event-image" class="block text-gray-300 mb-2">Image URL</label><input type="url" id="upcoming-event-image" placeholder="https://placehold.co/600x400/..." class="w-full p-2 rounded bg-gray-700 text-white border border-gray-600 focus:outline-none focus:border-yellow-400" required></div>
-                <div class="flex justify-between"><button type="submit" class="bg-yellow-400 text-gray-900 font-bold py-2 px-6 rounded-lg hover:bg-yellow-500 transition">Save</button><button type="button" class="modal-close-btn bg-gray-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-gray-500 transition">Cancel</button></div>
+                <div class="mb-4"><label for="upcoming-event-title" class="block text-gray-300 mb-2">Event Title</label><input type="text" id="upcoming-event-title" class="w-full p-2 rounded bg-slate-700 text-white border border-slate-600 focus:outline-none focus:border-cyan-400" required></div>
+                <div class="mb-4"><label for="upcoming-event-desc" class="block text-gray-300 mb-2">Description</label><textarea id="upcoming-event-desc" rows="3" class="w-full p-2 rounded bg-slate-700 text-white border border-slate-600 focus:outline-none focus:border-cyan-400" required></textarea></div>
+                <div class="mb-4"><label for="upcoming-event-date" class="block text-gray-300 mb-2">Date & Time</label><input type="datetime-local" id="upcoming-event-date" class="w-full p-2 rounded bg-slate-700 text-white border border-slate-600 focus:outline-none focus:border-cyan-400" required></div>
+                <div class="mb-6"><label for="upcoming-event-image" class="block text-gray-300 mb-2">Image URL</label><input type="url" id="upcoming-event-image" placeholder="https://placehold.co/600x400/..." class="w-full p-2 rounded bg-slate-700 text-white border border-slate-600 focus:outline-none focus:border-cyan-400" required></div>
+                <div class="flex justify-between"><button type="submit" class="bg-cyan-500 text-white font-bold py-2 px-6 rounded-lg hover:bg-cyan-600 transition">Save</button><button type="button" class="modal-close-btn bg-slate-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-slate-500 transition">Cancel</button></div>
             </form>
         </div>
     </div>
     <!-- User Registration Modal -->
     <div id="user-register-modal" class="modal hidden fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 z-50">
-        <div class="bg-gray-800 rounded-lg p-8 w-full max-w-md">
+        <div class="bg-slate-800 rounded-lg p-8 w-full max-w-md">
             <h3 id="register-modal-title" class="text-2xl font-bold mb-6 text-center text-white">Register for Event</h3>
             <form id="user-register-form">
                 <input type="hidden" id="register-event-id">
-                <div class="mb-4"><label for="register-name" class="block text-gray-300 mb-2">Full Name</label><input type="text" id="register-name" class="w-full p-2 rounded bg-gray-700 text-white border border-gray-600 focus:outline-none focus:border-yellow-400" required></div>
-                <div class="mb-6"><label for="register-email" class="block text-gray-300 mb-2">Email</label><input type="email" id="register-email" class="w-full p-2 rounded bg-gray-700 text-white border border-gray-600 focus:outline-none focus:border-yellow-400" required></div>
-                <div class="flex justify-between"><button type="submit" class="bg-yellow-400 text-gray-900 font-bold py-2 px-6 rounded-lg hover:bg-yellow-500 transition">Submit</button><button type="button" class="modal-close-btn bg-gray-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-gray-500 transition">Cancel</button></div>
+                <div class="mb-4"><label for="register-name" class="block text-gray-300 mb-2">Full Name</label><input type="text" id="register-name" class="w-full p-2 rounded bg-slate-700 text-white border border-slate-600 focus:outline-none focus:border-cyan-400" required></div>
+                <div class="mb-6"><label for="register-email" class="block text-gray-300 mb-2">Email</label><input type="email" id="register-email" class="w-full p-2 rounded bg-slate-700 text-white border border-slate-600 focus:outline-none focus:border-cyan-400" required></div>
+                <div class="flex justify-between"><button type="submit" class="bg-cyan-500 text-white font-bold py-2 px-6 rounded-lg hover:bg-cyan-600 transition">Submit</button><button type="button" class="modal-close-btn bg-slate-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-slate-500 transition">Cancel</button></div>
             </form>
         </div>
     </div>
@@ -222,14 +217,12 @@
             }
         });
 
-        // Simplified authentication for GitHub Pages
         (async () => {
             try {
                 await signInAnonymously(auth);
                 console.log("Signed in anonymously.");
             } catch (error) {
                 console.error("Anonymous authentication failed:", error);
-                // **FIX: Check for the specific configuration error and show a helpful modal.**
                 if (error.code === 'auth/configuration-not-found') {
                     openModal('config-error-modal');
                 }
@@ -258,15 +251,17 @@
                 }
                 snapshot.forEach((doc) => {
                     const event = doc.data();
-                    pastEventsGallery.innerHTML += `
-                        <div class="event-card bg-gray-800 rounded-lg overflow-hidden">
-                            <img src="${event.imageUrl}" alt="${event.title}" class="w-full h-48 object-cover" onerror="this.onerror=null;this.src='https://placehold.co/600x400/1a202c/FFFFFF?text=Image+Not+Found';">
-                            <div class="p-5">
-                                <h3 class="text-xl font-bold mb-2 text-yellow-400">${event.title}</h3>
-                                <p class="text-gray-400 text-sm">${event.description}</p>
-                            </div>
+                    const card = document.createElement('div');
+                    card.className = 'event-card bg-slate-800 rounded-lg overflow-hidden scroll-animate';
+                    card.innerHTML = `
+                        <img src="${event.imageUrl}" alt="${event.title}" class="w-full h-48 object-cover" onerror="this.onerror=null;this.src='https://placehold.co/600x400/1a202c/FFFFFF?text=Image+Not+Found';">
+                        <div class="p-5">
+                            <h3 class="text-xl font-bold mb-2 text-cyan-400">${event.title}</h3>
+                            <p class="text-gray-400 text-sm">${event.description}</p>
                         </div>`;
+                    pastEventsGallery.appendChild(card);
                 });
+                observeAnimatedElements();
             });
         }
 
@@ -294,17 +289,19 @@
                 snapshot.forEach((doc) => {
                     const event = doc.data();
                     const eventDate = new Date(event.eventDate).toLocaleString('en-US', { dateStyle: 'medium', timeStyle: 'short' });
-                    upcomingEventsGallery.innerHTML += `
-                        <div class="upcoming-card bg-gray-700 rounded-lg overflow-hidden flex flex-col">
-                            <img src="${event.imageUrl}" alt="${event.title}" class="w-full h-48 object-cover" onerror="this.onerror=null;this.src='https://placehold.co/600x400/1a202c/FFFFFF?text=Event';">
-                            <div class="p-5 flex flex-col flex-grow">
-                                <h3 class="text-xl font-bold mb-2 text-yellow-400">${event.title}</h3>
-                                <p class="text-gray-300 text-sm mb-2"><span class="font-semibold">Date:</span> ${eventDate}</p>
-                                <p class="text-gray-400 text-sm flex-grow">${event.description}</p>
-                                <button class="register-btn mt-4 w-full bg-yellow-400 text-gray-900 font-bold py-2 px-4 rounded-lg hover:bg-yellow-500 transition" data-id="${doc.id}" data-title="${event.title}">Register Now</button>
-                            </div>
+                    const card = document.createElement('div');
+                    card.className = 'upcoming-card bg-slate-700 rounded-lg overflow-hidden flex flex-col scroll-animate';
+                    card.innerHTML = `
+                        <img src="${event.imageUrl}" alt="${event.title}" class="w-full h-48 object-cover" onerror="this.onerror=null;this.src='https://placehold.co/600x400/1a202c/FFFFFF?text=Event';">
+                        <div class="p-5 flex flex-col flex-grow">
+                            <h3 class="text-xl font-bold mb-2 text-cyan-400">${event.title}</h3>
+                            <p class="text-gray-300 text-sm mb-2"><span class="font-semibold">Date:</span> ${eventDate}</p>
+                            <p class="text-gray-400 text-sm flex-grow">${event.description}</p>
+                            <button class="register-btn mt-4 w-full bg-cyan-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-cyan-600 transition" data-id="${doc.id}" data-title="${event.title}">Register Now</button>
                         </div>`;
+                    upcomingEventsGallery.appendChild(card);
                 });
+                observeAnimatedElements();
             });
         }
         
@@ -327,7 +324,6 @@
             const registrationPath = `${upcomingEventsPath}/${eventId}/registrations`;
             
             try {
-                // We use the user's UID as the document ID to prevent duplicate registrations
                 await setDoc(doc(db, registrationPath, currentUser.uid), { name, email, registeredAt: new Date() });
                 e.target.reset();
                 closeModal();
@@ -339,6 +335,21 @@
                 alert("Registration failed. You may have already registered.");
             }
         });
+
+        // --- ON-SCROLL ANIMATION LOGIC ---
+        function observeAnimatedElements() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            const elements = document.querySelectorAll('.scroll-animate');
+            elements.forEach(el => observer.observe(el));
+        }
+        observeAnimatedElements();
 
     </script>
 </body>
